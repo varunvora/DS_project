@@ -120,7 +120,27 @@ int combination(int number)
 	return num_return;
 }
 
+int equalsum(int n1, int n2)
+{
+		int sum1, sum2, a, b;
+		sum1 = 0;
+		sum2 = 0;
+		while(n1!=0){
+			a = n1%10;
+			sum1 = sum1 + a;
+			n1 = n1/10;
+		}
+		while(n2!=0){
+			b = n2%10;
+			sum2 = sum2 + b;
+			n2 = n2/10;
+		}
+		if(sum1 == sum2) return (1);
+}
+
 int flag (int num1, int num2) {
+	if(!equalsum(num1, num2))
+		return 0;
     int digits[10];
     int i;
 
