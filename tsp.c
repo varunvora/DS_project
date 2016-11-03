@@ -74,10 +74,9 @@ int factorial(int count)
 	return fact;
 }
 
-double dist(int n){//1432
+double dist(int n){
     int reverse = 0;
     double path = 0;
-	int temp = n; //remove this later
     while (n != 0)
     {
           reverse = reverse * 10;
@@ -98,7 +97,6 @@ double dist(int n){//1432
 
 int combination(int number)
 {	
-	printf("combination function called\n");
 	int loop = (factorial(list_size))/2;
 	double smallest = dist(number),count=1;int c = number;
 	int num_return = number;
@@ -142,6 +140,15 @@ int flag (long num1, long num2) {
     return 1;                  // All count identical, was a permutation.
 }
 
+void digittocity(int number)
+{	
+	int temp;
+	printf("%s -> ", list[0].name);
+	for (temp=number; temp; temp /= 10)
+		printf("%s -> ",list[temp%10].name);
+	printf("%s\n", list[0].name);
+}
+
 void userInput()
 {
 	int temp, i;
@@ -167,6 +174,8 @@ int main()
 			printf("%lf\t", graph[i][j]);
 		printf("\n");
 	}
-	printf("\nFINAL ANSWER: %d\n", combination(seed(list_size)));
+	int ans = combination(seed(list_size));
+	printf("\nFINAL ANSWER: %d\n", ans);
+	digittocity(ans);
 	return 0;
 }
