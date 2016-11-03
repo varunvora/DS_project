@@ -51,6 +51,99 @@ void updateGraph(city A)
 		graph[temp][list_size] = graph[list_size][temp];
 	}
 }
+
+int seed(list_size)
+{
+	int temp = list_size - 1;
+	long int first_path = 0;
+	int i = 0;
+	for (i=1;i<=list_size;i++)
+	{
+		first_path=first_path + i*pow(10,temp);
+		temp--;
+	}
+	return first_path;
+}
+int factorial(int count)
+{	int fact = 1;
+	while(count>0)
+	{
+		fact = fact*count;
+		count--;
+	}
+	return fact;
+}
+
+double dist(int n){//1432
+    int reverse = 0;
+    double path = 0;
+	int temp = n; //remove this later
+    while (n != 0)
+    {
+          reverse = reverse * 10;
+          reverse = reverse + (n%10);
+          n = n/10;
+    }    
+      int i, j = 0 ;
+      while (reverse != 0)
+      {
+        i = reverse % 10;
+        path = path + graph[j][i];
+        j = i;
+        reverse = reverse/10;
+    }
+    path = path + graph[j][0];
+	printf("in dist(): path = %d, distance = %lf", temp, path);
+    return path;
+}
+
+int combination(int number)
+{	
+	printf("combination function called\n");
+	int loop = (factorial(list_size))/2;
+	double smallest = dist(number),count=1;int c;
+	int num_return = number;
+	while(count <= loop)
+	{
+		c=number + 9;
+		if(flag(c))
+		{
+			printf("in combination: %d and distance = %lf", c, dist(c));
+			if(dist(c) < smallest)
+			{
+				num_return = c;
+				smallest = dist(c);		
+			}
+			count++;
+		}
+	}
+	return num_return;
+}
+
+int flag (long num1, long num2) {
+    int digits[10];
+    int i;
+
+    for (i = 0; i < 10; i++)      // Init all counts to zero.
+        digits[i] = 0;
+
+    while (num1 != 0) {           // Process all digits.
+        digits[num1%10]++;        // Increment for least significant digit.
+        num1 /= 10;               // Get next digit in sequence.
+    }
+
+    while (num2 != 0) {           // Same for num2 except decrement.
+        digits[num2%10]--;
+        num2 /= 10;
+    }
+
+    for (i = 0; i < 10; i++)
+        if (digits[i] != 0)       // Any count different, not a permutation.
+            return 0;
+
+    return 1;                  // All count identical, was a permutation.
+}
+
 void userInput()
 {
 	int temp, i;
@@ -76,5 +169,6 @@ int main()
 			printf("%lf\t", graph[i][j]);
 		printf("\n");
 	}
+	printf("%d\n", combination(seed(list_size)));
 	return 0;
 }
