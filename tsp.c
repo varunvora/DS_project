@@ -93,7 +93,6 @@ double dist(int n){//1432
         reverse = reverse/10;
     }
     path = path + graph[j][0];
-	printf("in dist(): path = %d, distance = %lf", temp, path);
     return path;
 }
 
@@ -101,14 +100,13 @@ int combination(int number)
 {	
 	printf("combination function called\n");
 	int loop = (factorial(list_size))/2;
-	double smallest = dist(number),count=1;int c;
+	double smallest = dist(number),count=1;int c = number;
 	int num_return = number;
-	while(count <= loop)
+	while(count < loop)
 	{
-		c=number + 9;
-		if(flag(c))
+		c += 9;
+		if(flag(number, c))
 		{
-			printf("in combination: %d and distance = %lf", c, dist(c));
 			if(dist(c) < smallest)
 			{
 				num_return = c;
@@ -169,6 +167,6 @@ int main()
 			printf("%lf\t", graph[i][j]);
 		printf("\n");
 	}
-	printf("%d\n", combination(seed(list_size)));
+	printf("\nFINAL ANSWER: %d\n", combination(seed(list_size)));
 	return 0;
 }
