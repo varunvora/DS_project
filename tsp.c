@@ -3,6 +3,8 @@
 #include<stdlib.h>
 #include<string.h>
 #include<math.h>
+#include<stdbool.h>
+#include<float.h>
 #define SIZE 10
 
 typedef struct city {
@@ -16,6 +18,7 @@ int list_size = -1;
 double graph[SIZE][SIZE];
 
 void updateGraph(city);
+int flag(int, int);
 
 void newCity()
 {
@@ -52,7 +55,7 @@ void updateGraph(city A)
 	}
 }
 
-int seed(list_size)
+int seed(int x)
 {
 	int temp = list_size - 1;
 	long int first_path = 0;
@@ -74,7 +77,8 @@ int factorial(int count)
 	return fact;
 }
 
-double dist(int n){
+double dist(int n)
+{
     int reverse = 0;
     double path = 0;
     while (n != 0)
@@ -116,7 +120,7 @@ int combination(int number)
 	return num_return;
 }
 
-int flag (long num1, long num2) {
+int flag (int num1, int num2) {
     int digits[10];
     int i;
 
@@ -157,15 +161,41 @@ void userInput()
 	for(i = 0; i < temp; i++)
 		newCity();
 }
+int nn()
+{ // assuming 4 cities
+	bool visited[list_size+1]; //3+1 = 4
+	int i = 0;
+	int next_city_index;
+	int cities_visited = 0;
+	int current_city_index = 0;
+	int path = 0;
+	double smallest;
+	for(cities_visited = 0; cities_visited < list_size; cities_visited++) //0 < 3 
+	{
+		smallest = DBL_MAX;
+		visited[current_city_index] = true;
+		for(i = 0; i <= list_size; i++) //0 <= 3
+		{
+			if ((!visited[i]) && (graph[current_city_index][i] < smallest))
+			{
+				smallest = graph[current_city_index][i];
+				next_city_index = i;
+			}
+		}
+		current_city_index = next_city_index;
+		path = path*10 + current_city_index;
+	}
+	return path;
+}
 int main()
 {
 	userInput();
 	printf("the first city: %s\n", list[0].name);
 	printf("the first city: %s\n", list[1].name);
 	int i, j;
-	printf("\t\t");
+	printf("\t");
 	for(i = 0; i <= list_size; i++)
-		printf("%s\t", list[i].name);
+		printf("%s\t\t", list[i].name);
 	printf("\n");
 	for(i = 0; i <= list_size; i++)
 	{
@@ -177,5 +207,8 @@ int main()
 	int ans = combination(seed(list_size));
 	printf("\nFINAL ANSWER: %d\n", ans);
 	digittocity(ans);
+	ans = nn();
+	printf("\nfinal nn answer: %d\n", ans);
+	digittocity(ans);	
 	return 0;
 }
