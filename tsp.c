@@ -6,7 +6,7 @@
 #define SIZE 10
 
 typedef struct city {
-	char *name;
+	char name[20];
 	int x;
 	int y;
 }city;
@@ -21,13 +21,19 @@ void newCity()
 {
 	char new_name[20];
 	int X, Y;
-	printf("Enter city name: ");
+	if (list_size == -1)
+		printf("Enter name of the starting city: ");
+	else
+		printf("Enter next city name: ");
 	scanf("%s", new_name);
 	printf("Enter the X co-ordinate of %s (in km): ", new_name);
 	scanf("%d", &X);
 	printf("Enter the Y co-ordinate of %s (in km): ", new_name);
 	scanf("%d", &Y);
-	list[++list_size].name = new_name;
+	list_size++;
+	int i;
+	for(i = 0; new_name[i] != '\0'; i++)
+		list[list_size].name[i] = new_name[i]; 
 	list[list_size].x = X;
 	list[list_size].y = Y;	
 	updateGraph(list[list_size]);
@@ -59,7 +65,7 @@ int main()
 	printf("the first city: %s\n", list[0].name);
 	printf("the first city: %s\n", list[1].name);
 	int i, j;
-
+	printf("\t\t");
 	for(i = 0; i <= list_size; i++)
 		printf("%s\t", list[i].name);
 	printf("\n");
