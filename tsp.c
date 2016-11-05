@@ -5,6 +5,7 @@
 #include<math.h>
 #include<stdbool.h>
 #include<float.h>
+#include<time.h>
 #define SIZE 10
 
 typedef struct city {
@@ -17,8 +18,40 @@ city list[SIZE];
 int list_size = -1;
 double graph[SIZE][SIZE];
 
+/*Function prototypes*/
 void updateGraph(city);
 int flag(int, int);
+void digittocity(int);
+void newCity();
+double distance(city, city);
+void updateGraph(city);
+int seed();
+int factorial(int);
+double dist(int);
+void combination(int);
+int equalsum(int, int);
+int flag(int, int);
+void userInput();
+void display_graph();
+void nn();
+/*End of function prototypes*/
+
+int main()
+{
+	userInput();
+	display_graph();
+	clock_t start = clock(), diff;
+	combination(seed());
+	diff = clock() - start;
+	int msec = diff * 1000 / CLOCKS_PER_SEC;
+	printf("Time taken %d seconds %d milliseconds\n", msec/1000, msec%1000);
+	start = clock();
+	nn();
+	diff = clock() - start;
+	msec = diff * 1000 / CLOCKS_PER_SEC;
+	printf("Time taken %d seconds %d milliseconds\n", msec/1000, msec%1000);
+	return 0;
+}
 
 void newCity()
 {
@@ -55,7 +88,7 @@ void updateGraph(city A)
 	}
 }
 
-int seed(int x)
+int seed()
 {
 	int temp = list_size - 1;
 	long int first_path = 0;
@@ -67,12 +100,12 @@ int seed(int x)
 	}
 	return first_path;
 }
-int factorial(int count)
+int factorial(int n)
 {	int fact = 1;
-	while(count>0)
+	while(n)
 	{
-		fact = fact*count;
-		count--;
+		fact = fact*n;
+		n--;
 	}
 	return fact;
 }
@@ -99,10 +132,11 @@ double dist(int n)
     return path;
 }
 
-int combination(int number)
+void combination(int number)
 {	
 	int loop = (factorial(list_size))/2;
-	double smallest = dist(number),count=1;int c = number;
+	double smallest = dist(number);
+	int count=1, c = number;
 	int num_return = number;
 	while(count < loop)
 	{
@@ -117,7 +151,11 @@ int combination(int number)
 			count++;
 		}
 	}
-	return num_return;
+	printf("\nBRUTE FORCE SEARCH\n");
+	printf("Shorest path : ");
+	digittocity(num_return);
+	printf("Distance of shortest path: %lf\n", smallest);
+	printf("Combinations tried: %d\n", count);
 }
 
 int equalsum(int n1, int n2)
@@ -178,10 +216,16 @@ void userInput()
 	int temp, i;
 	printf("Enter number of cities: ");
 	scanf("%d", &temp);
+	if (temp > SIZE)
+	{
+		printf("Please enter fewer number of cities\n");
+		userInput();
+		return;
+	}
 	for(i = 0; i < temp; i++)
 		newCity();
 }
-int nn()
+void nn()
 { // assuming 4 cities
 	bool visited[list_size+1]; //3+1 = 4
 	int i = 0;
@@ -189,6 +233,7 @@ int nn()
 	int cities_visited = 0;
 	int current_city_index = 0;
 	int path = 0;
+	int count = 0;
 	double smallest;
 	for(cities_visited = 0; cities_visited < list_size; cities_visited++) //0 < 3 
 	{
@@ -201,17 +246,20 @@ int nn()
 				smallest = graph[current_city_index][i];
 				next_city_index = i;
 			}
+			count++; //just for no. of comparisons
 		}
 		current_city_index = next_city_index;
 		path = path*10 + current_city_index;
 	}
-	return path;
+	printf("\nNEAREST NEIGHBOUR ALGORITHM\n");
+	printf("Shortest path : ");
+	digittocity(path);
+	printf("Distance of shortest path = %lf\n", dist(path));
+	printf("Comparisons made = %d\n", count);
 }
-int main()
+void display_graph()
 {
-	userInput();
-	printf("the first city: %s\n", list[0].name);
-	printf("the first city: %s\n", list[1].name);
+	printf("\nGRAPH\n");
 	int i, j;
 	printf("\t");
 	for(i = 0; i <= list_size; i++)
@@ -224,11 +272,4 @@ int main()
 			printf("%lf\t", graph[i][j]);
 		printf("\n");
 	}
-	int ans = combination(seed(list_size));
-	printf("\nFINAL ANSWER: %d\n", ans);
-	digittocity(ans);
-	ans = nn();
-	printf("\nfinal nn answer: %d\n", ans);
-	digittocity(ans);	
-	return 0;
 }
