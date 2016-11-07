@@ -1,4 +1,7 @@
-/*TSP*/
+/*TSP
+Last update: added intro() and bye() to make UI pretty
+Updated om 7th November 2016 at 12:30 pm*/
+
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
@@ -15,7 +18,7 @@ typedef struct city {
 }city;
 
 city list[SIZE];
-int list_size = -1;
+int list_size = -1; //stores city with the highest index in list
 double graph[SIZE][SIZE];
 
 /*Function prototypes*/
@@ -34,25 +37,37 @@ int flag(int, int);
 void userInput();
 void display_graph();
 void nn();
+void intro();
+void bye();
 /*End of function prototypes*/
 
 int main()
 {
+	intro();
 	userInput();
 	display_graph();
-	clock_t start = clock(), diff;
-	combination(seed());
+	clock_t start = clock(), diff; //start calculating how long brute force takes
+	combination(seed()); //brute force function
 	diff = clock() - start;
 	int msec = diff * 1000 / CLOCKS_PER_SEC;
 	printf("Time taken %d seconds %d milliseconds\n", msec/1000, msec%1000);
-	start = clock();
+	start = clock(); //start calculating how long NN takes
 	nn();
 	diff = clock() - start;
 	msec = diff * 1000 / CLOCKS_PER_SEC;
 	printf("Time taken %d seconds %d milliseconds\n", msec/1000, msec%1000);
+	bye();
 	return 0;
 }
 
+void intro()
+{
+	printf("\n---------------------------------------------------------------------------------------------------------------------\n\t\t\t\t\tTHE TRAVELLING SALESMAN PROBLEM\n Follow the instructions and we will give you the shortest path to visit each city and return to the original city\n---------------------------------------------------------------------------------------------------------------------\n");
+}
+void bye()
+{
+	printf("---------------------------------------------------------------------------------------------------------------------\n");
+}
 void newCity()
 {
 	char new_name[20];
@@ -138,7 +153,7 @@ void combination(int number)
 	double smallest = dist(number);
 	int count=1, c = number;
 	int num_return = number;
-	while(count < loop)
+	while(count <= loop)
 	{
 		c += 9;
 		if(flag(number, c))
@@ -154,8 +169,8 @@ void combination(int number)
 	printf("\nBRUTE FORCE SEARCH\n");
 	printf("Shorest path : ");
 	digittocity(num_return);
-	printf("Distance of shortest path: %lf\n", smallest);
-	printf("Combinations tried: %d\n", count);
+	printf("Distance of shortest path: %lf km\n", smallest);
+	printf("Combinations tried: %d\n", count-1);
 }
 
 int equalsum(int n1, int n2)
@@ -254,7 +269,7 @@ void nn()
 	printf("\nNEAREST NEIGHBOUR ALGORITHM\n");
 	printf("Shortest path : ");
 	digittocity(path);
-	printf("Distance of shortest path = %lf\n", dist(path));
+	printf("Distance of shortest path = %lf km\n", dist(path));
 	printf("Comparisons made = %d\n", count);
 }
 void display_graph()
