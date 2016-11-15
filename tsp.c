@@ -13,8 +13,8 @@ Updated om 7th November 2016 at 12:30 pm*/
 
 typedef struct city {
 	char name[20];
-	int x;
-	int y;
+	double x;
+	double y;
 }city;
 
 city list[SIZE];
@@ -27,13 +27,11 @@ int flag(int, int);
 void digittocity(int);
 void newCity();
 double distance(city, city);
-void updateGraph(city);
 int seed();
 int factorial(int);
-double dist(int);
+double dist(int); //path distance
 void combination(int);
 int equalsum(int, int);
-int flag(int, int);
 void userInput();
 void display_graph();
 void nn();
@@ -71,16 +69,16 @@ void bye()
 void newCity()
 {
 	char new_name[20];
-	int X, Y;
+	double X, Y;
 	if (list_size == -1)
 		printf("Enter name of the starting city: ");
 	else
 		printf("Enter next city name: ");
 	scanf("%s", new_name);
 	printf("Enter the X co-ordinate of %s (in km): ", new_name);
-	scanf("%d", &X);
+	scanf("%lf", &X);
 	printf("Enter the Y co-ordinate of %s (in km): ", new_name);
-	scanf("%d", &Y);
+	scanf("%lf", &Y);
 	list_size++;
 	int i;
 	for(i = 0; new_name[i] != '\0'; i++)
