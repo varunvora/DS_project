@@ -165,7 +165,7 @@ void combination(int number)
 		}
 	}
 	printf("\nBRUTE FORCE SEARCH\n");
-	printf("Shorest path : ");
+	printf("Shortest path : ");
 	digittocity(num_return);
 	printf("Distance of shortest path: %lf km\n", smallest);
 	printf("Combinations tried: %d\n", count-1);
