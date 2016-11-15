@@ -1,6 +1,6 @@
 /*TSP
-Last update: added intro() and bye() to make UI pretty
-Updated om 7th November 2016 at 12:30 pm*/
+Last update: changed data type of co-ordinates to double
+Updated om 14th November 2016 at 8 am*/
 
 #include<stdio.h>
 #include<stdlib.h>
